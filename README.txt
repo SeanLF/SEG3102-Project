@@ -30,14 +30,14 @@ In addition to the standard elements, you will submit a document with the follow
 8. Implementation - Traceability information between design elements and code – show how the design elements (from sections 5, 6) traces to the provided source code.
 
 	For instance, you may provide a table with the following format
-	|---------------------------------|----------------------------------------------------------------------------|
-	| ￼￼￼Design Element               | Implementation Element                                                     |
-	|---------------------------------|----------------------------------------------------------------------------|
-	| ￼ ￼￼Implementation mechanism 1  | Package/Classe/ or JSF corresponding (or « none » if not implemented)      |
-	| ￼￼￼Presentation layer element 1 | ￼Package/Classe/ or JSF corresponding (or « none » if not implemented)     |
-	| ￼￼￼Enterprise component 1       | ￼￼￼Package corresponding (or « none » if not implemented)                  |
-	| ￼￼￼Framework Component 1        | ￼￼Package/Classe corresponding (or « none » if not implemented)      	   |
-	|---------------------------------|----------------------------------------------------------------------------|
+|---------------------------------|----------------------------------------------------------------------------|
+| ￼￼￼Design Element               | Implementation Element                                                     |
+|---------------------------------|----------------------------------------------------------------------------|
+| ￼ ￼￼Implementation mechanism 1  | Package/Classe/ or JSF corresponding (or « none » if not implemented)      |
+| ￼￼￼Presentation layer element 1 | ￼Package/Classe/ or JSF corresponding (or « none » if not implemented)     |
+| ￼￼￼Enterprise component 1       | ￼￼￼Package corresponding (or « none » if not implemented)                  |
+| ￼￼￼Framework Component 1        | ￼￼Package/Classe corresponding (or « none » if not implemented)      	   |
+|---------------------------------|----------------------------------------------------------------------------|
 
 
 	￼• Use the @Table annotation to specify a custom name to the tables corresponding to your entities. For instance :
@@ -45,4 +45,6 @@ In addition to the standard elements, you will submit a document with the follow
 	Where 1234567 is a team member student ID.
 
 9. Discussion – provide a short discussion on how your design promotes the quality of
-modifiability (adding/altering use cases). 10. References.
+modifiability (adding/altering use cases). 
+
+10. References.
