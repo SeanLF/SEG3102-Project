@@ -36,6 +36,7 @@ public class AuctionItem implements Serializable {
     private String auctionitemid;
     private String title;
     private String description;
+    private String useraccountid;
 
     @Override
     public boolean equals(Object object) {
@@ -95,6 +96,20 @@ public class AuctionItem implements Serializable {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * @return the useraccountid
+     */
+    public String getUseraccountid() {
+        return useraccountid;
+    }
+
+    /**
+     * @param useraccountid the useraccountid to set
+     */
+    public void setUseraccountid(String useraccountid) {
+        this.useraccountid = useraccountid;
     }
     
 }

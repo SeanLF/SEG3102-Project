@@ -146,7 +146,7 @@ public class CreditCardBean {
             status="Successfuly added Credit Card";
         } catch (Exception ex ) {
             Logger.getLogger(CreditCardBean.class.getName()).log(Level.SEVERE, null, ex);
-            status="Error While Creating New Account";
+            status="Error While Creating New Credit Card";
         }
     }
     

@@ -34,6 +34,7 @@ public class PendingPayment implements Serializable {
     private String pendingpaymentid;
     private String amount;
     private String useraccountid;
+    private boolean archived;
 
     @Override
     public boolean equals(Object object) {
@@ -93,6 +94,20 @@ public class PendingPayment implements Serializable {
      */
     public void setUseraccountid(String useraccountid) {
         this.useraccountid = useraccountid;
+    }
+
+    /**
+     * @return the archived
+     */
+    public boolean isArchived() {
+        return archived;
+    }
+
+    /**
+     * @param archived the archived to set
+     */
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
     
 }
