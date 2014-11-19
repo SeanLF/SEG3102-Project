@@ -11,7 +11,30 @@
 
             <ui:define name="content">
                 <h1>You are in the Protected Part of our Site...#{sessionScope.User.firstname} #{sessionScope.User.lastname}</h1>
+                <p>
+                    <strong>Client</strong>
+                    <ul>
+                        <li>
+                            <a href="">Browse Catalog.</a>
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    <strong>Owner</strong>
+                    <ul>
+                        <li>
+                            <a href="">View my properties.</a>                            
+                        </li>
+                        <li>
+                            <a href="">Add property.</a>
+                        </li>
+                    </ul>
+                </p>
                 <f:view>
+                    <h:form>
+                <h:commandButton value="View Account" type="command"  action="#{loginBean.viewaccount}"> 
+                </h:commandButton> 
+                    </h:form>
                     <h:form>
                 <h:commandButton value="Logout" type="command"  action="#{loginBean.logout}"> 
                 </h:commandButton> 
