@@ -14,7 +14,7 @@ import javax.persistence.Id;
  * @author Sean
  */
 @Entity
-public class CreditCart implements Serializable {
+public class CreditCard implements Serializable {
    private static long serialVersionUID = 1L;
 
     /**
@@ -31,21 +31,21 @@ public class CreditCart implements Serializable {
         serialVersionUID = aSerialVersionUID;
     }
     @Id
-    private String creditcardid;
     private String number;
     private String type;
     private String expirationmonth;
     private String expirationyear;
     private String nameoncard;
+    private String useraccountid;
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CreditCart)) {
+        if (!(object instanceof CreditCard)) {
             return false;
         }
-        CreditCart other = (CreditCart) object;
-        if ((this.getCreditcardid() == null && other.getCreditcardid() != null) || (this.creditcardid != null && !this.creditcardid.equals(other.creditcardid))) {
+        CreditCard other = (CreditCard) object;
+        if ((this.getNumber()== null && other.getNumber() != null) || (this.number != null && !this.number.equals(other.number))) {
             return false;
         }
         return true;
@@ -53,21 +53,7 @@ public class CreditCart implements Serializable {
 
     @Override
     public String toString() {
-        return "persistence.CreditCart[ id=" + creditcardid + " ]";
-    }
-
-    /**
-     * @return the creditcardid
-     */
-    public String getCreditcardid() {
-        return creditcardid;
-    }
-
-    /**
-     * @param creditcardid the creditcardid to set
-     */
-    public void setCreditcardid(String creditcardid) {
-        this.creditcardid = creditcardid;
+        return "persistence.CreditCart[ id=" + number + " ]";
     }
 
     /**
@@ -138,6 +124,20 @@ public class CreditCart implements Serializable {
      */
     public void setNameoncard(String nameoncard) {
         this.nameoncard = nameoncard;
+    }
+
+    /**
+     * @return the useraccountid
+     */
+    public String getUseraccountid() {
+        return useraccountid;
+    }
+
+    /**
+     * @param useraccountid the useraccountid to set
+     */
+    public void setUseraccountid(String useraccountid) {
+        this.useraccountid = useraccountid;
     }
     
 }

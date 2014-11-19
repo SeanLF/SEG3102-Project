@@ -19,6 +19,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import persistence.CreditCard;
 import persistence.UserAccount;
 
 /**
@@ -34,7 +35,7 @@ public class SignInBean {
     private String birthDate;
     private String city;
     private String password;
-    @PersistenceContext(unitName = "UserAccountPU")
+    @PersistenceContext(unitName = "OPRS")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
