@@ -12,16 +12,16 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import persistence.AuctionItem;
+import persistence.Property;
 
 /**
  * This is our property
  * @author Sean
  */
-@Named(value = "auctionItemBean")
+@Named(value = "propertyBean")
 @RequestScoped
-public class AuctionItemBean {
-    private String auctionitemid;
+public class PropertyBean {
+    private String propertyid;
     private String title;
     private String description;
     private String useraccountid;
@@ -32,23 +32,52 @@ public class AuctionItemBean {
     
     private String status;
     /**
-     * Creates a new instance of AuctionItemBean
+     * Creates a new instance of PropertyBean
      */
-    public AuctionItemBean() {
+    public PropertyBean() {
+    }
+    
+    public void persist(Object object) {
+        try {
+            utx.begin();
+            em.persist(object);
+            utx.commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public void addProperty() {
+        try {
+            Property p = new Property();
+            
+            p.setDescription(getDescription());
+            p.setTitle(getTitle());
+            p.setUseraccountid(getUseraccountid());
+            setPropertyid(getUseraccountid() + "_" + getTitle());
+            p.setPropertyid(getPropertyid());
+            
+            persist(p);
+            setStatus("Successfuly added Property");
+        } catch (Exception ex ) {
+            Logger.getLogger(PropertyBean.class.getName()).log(Level.SEVERE, null, ex);
+            setStatus("Error While Creating New Property");
+        }
     }
 
     /**
-     * @return the auctionitemid
+     * @return the propertyid
      */
-    public String getAuctionitemid() {
-        return auctionitemid;
+    public String getPropertyid() {
+        return propertyid;
     }
 
     /**
-     * @param auctionitemid the auctionitemid to set
+     * @param propertyid the propertyid to set
      */
-    public void setAuctionitemid(String auctionitemid) {
-        this.auctionitemid = auctionitemid;
+    public void setPropertyid(String propertyid) {
+        this.propertyid = propertyid;
     }
 
     /**
@@ -105,35 +134,6 @@ public class AuctionItemBean {
      */
     public void setStatus(String status) {
         this.status = status;
-    }
-    
-    public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
-    }
-    
-    public void addAuctionItem() {
-        try {
-            AuctionItem ai = new AuctionItem();
-            
-            ai.setDescription(description);
-            ai.setTitle(title);
-            ai.setUseraccountid(useraccountid);
-            auctionitemid = useraccountid + "_" + title;
-            ai.setAuctionitemid(auctionitemid);
-            
-            persist(ai);
-            status="Successfuly added Property";
-        } catch (Exception ex ) {
-            Logger.getLogger(AuctionItemBean.class.getName()).log(Level.SEVERE, null, ex);
-            status="Error While Creating New Property";
-        }
     }
     
 }

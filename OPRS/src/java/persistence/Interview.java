@@ -6,6 +6,7 @@
 package persistence;
 
 import java.io.Serializable;
+import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,8 +17,8 @@ import javax.persistence.Id;
  * @author Sean
  */
 @Entity
-public class AuctionItem implements Serializable {
-    private static long serialVersionUID = 1L;
+public class Interview implements Serializable {
+    private static  long serialVersionUID = 1L;
 
     /**
      * @return the serialVersionUID
@@ -33,19 +34,18 @@ public class AuctionItem implements Serializable {
         serialVersionUID = aSerialVersionUID;
     }
     @Id
-    private String auctionitemid;
-    private String title;
+    private String interviewid;
     private String description;
-    private String useraccountid;
-
+    private Date interviewdate;
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AuctionItem)) {
+        if (!(object instanceof Interview)) {
             return false;
         }
-        AuctionItem other = (AuctionItem) object;
-        if ((this.getAuctionitemid() == null && other.getAuctionitemid() != null) || (this.auctionitemid != null && !this.auctionitemid.equals(other.auctionitemid))) {
+        Interview other = (Interview) object;
+        if ((this.getInterviewid() == null && other.getInterviewid() != null) || (this.interviewid != null && !this.interviewid.equals(other.interviewid))) {
             return false;
         }
         return true;
@@ -53,35 +53,21 @@ public class AuctionItem implements Serializable {
 
     @Override
     public String toString() {
-        return "persistence.AuctionItem[ id=" + auctionitemid + " ]";
+        return "persistence.Interview[ id=" + interviewid + " ]";
     }
 
     /**
-     * @return the auctionitemid
+     * @return the interviewid
      */
-    public String getAuctionitemid() {
-        return auctionitemid;
+    public String getInterviewid() {
+        return interviewid;
     }
 
     /**
-     * @param auctionitemid the auctionitemid to set
+     * @param interviewid the interviewid to set
      */
-    public void setAuctionitemid(String auctionitemid) {
-        this.auctionitemid = auctionitemid;
-    }
-
-    /**
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
-        this.title = title;
+    public void setInterviewid(String interviewid) {
+        this.interviewid = interviewid;
     }
 
     /**
@@ -99,17 +85,17 @@ public class AuctionItem implements Serializable {
     }
 
     /**
-     * @return the useraccountid
+     * @return the interviewdate
      */
-    public String getUseraccountid() {
-        return useraccountid;
+    public Date getInterviewdate() {
+        return interviewdate;
     }
 
     /**
-     * @param useraccountid the useraccountid to set
+     * @param interviewdate the interviewdate to set
      */
-    public void setUseraccountid(String useraccountid) {
-        this.useraccountid = useraccountid;
+    public void setInterviewdate(Date interviewdate) {
+        this.interviewdate = interviewdate;
     }
     
 }

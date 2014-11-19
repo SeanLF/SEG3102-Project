@@ -17,7 +17,7 @@ import javax.persistence.Id;
  * @author Sean
  */
 @Entity
-public class Bid implements Serializable {
+public class Lease implements Serializable {
     private static long serialVersionUID = 1L;
 
     /**
@@ -34,20 +34,20 @@ public class Bid implements Serializable {
         serialVersionUID = aSerialVersionUID;
     }
     @Id
-    private String bidid;
+    private String leaseid;
     private String amount;
-    private Date dateofbid;
-    private String timeofbid;
-    private String auctionid;
+    private Date startdate;
+    private String enddate;
+    private String propertyid;
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Bid)) {
+        if (!(object instanceof Lease)) {
             return false;
         }
-        Bid other = (Bid) object;
-        if ((this.getBidid() == null && other.getBidid() != null) || (this.bidid != null && !this.bidid.equals(other.bidid))) {
+        Lease other = (Lease) object;
+        if ((this.getLeaseid()== null && other.getLeaseid() != null) || (this.getLeaseid() != null && !this.leaseid.equals(other.leaseid))) {
             return false;
         }
         return true;
@@ -55,21 +55,21 @@ public class Bid implements Serializable {
 
     @Override
     public String toString() {
-        return "persistence.Bid[ id=" + bidid + " ]";
+        return "persistence.Lease[ id=" + getLeaseid() + " ]";
     }
 
     /**
-     * @return the bidid
+     * @return the leaseid
      */
-    public String getBidid() {
-        return bidid;
+    public String getLeaseid() {
+        return leaseid;
     }
 
     /**
-     * @param bidid the bidid to set
+     * @param leaseid the leaseid to set
      */
-    public void setBidid(String bidid) {
-        this.bidid = bidid;
+    public void setLeaseid(String leaseid) {
+        this.leaseid = leaseid;
     }
 
     /**
@@ -87,44 +87,44 @@ public class Bid implements Serializable {
     }
 
     /**
-     * @return the dateofbid
+     * @return the startdate
      */
-    public Date getDateofbid() {
-        return dateofbid;
+    public Date getStartdate() {
+        return startdate;
     }
 
     /**
-     * @param dateofbid the dateofbid to set
+     * @param startdate the startdate to set
      */
-    public void setDateofbid(Date dateofbid) {
-        this.dateofbid = dateofbid;
+    public void setStartdate(Date startdate) {
+        this.startdate = startdate;
     }
 
     /**
-     * @return the timeofbid
+     * @return the enddate
      */
-    public String getTimeofbid() {
-        return timeofbid;
+    public String getEnddate() {
+        return enddate;
     }
 
     /**
-     * @param timeofbid the timeofbid to set
+     * @param enddate the enddate to set
      */
-    public void setTimeofbid(String timeofbid) {
-        this.timeofbid = timeofbid;
+    public void setEnddate(String enddate) {
+        this.enddate = enddate;
     }
 
     /**
-     * @return the auctionid
+     * @return the propertyid
      */
-    public String getAuctionid() {
-        return auctionid;
+    public String getPropertyid() {
+        return propertyid;
     }
 
     /**
-     * @param auctionid the auctionid to set
+     * @param propertyid the propertyid to set
      */
-    public void setAuctionid(String auctionid) {
-        this.auctionid = auctionid;
+    public void setPropertyid(String propertyid) {
+        this.propertyid = propertyid;
     }
 }

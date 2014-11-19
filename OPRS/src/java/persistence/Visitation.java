@@ -17,7 +17,7 @@ import javax.persistence.Id;
  * @author Sean
  */
 @Entity
-public class Auction implements Serializable {
+public class Visitation implements Serializable {
     private static long serialVersionUID = 1L;
 
     /**
@@ -34,22 +34,22 @@ public class Auction implements Serializable {
         serialVersionUID = aSerialVersionUID;
     }
     @Id
-    private String auctionid;
+    private String visitationid;
     private Date startdate;
     private String starttime;
     private Date enddate;
     private String endtime;
-    private String minimumbid;
+    private String propertyid;
     private String categoryid;
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Auction)) {
+        if (!(object instanceof Visitation)) {
             return false;
         }
-        Auction other = (Auction) object;
-        if ((this.getAuctionid() == null && other.getAuctionid() != null) || (this.auctionid != null && !this.auctionid.equals(other.auctionid))) {
+        Visitation other = (Visitation) object;
+        if ((this.getCategoryid()== null && other.getCategoryid() != null) || (this.getVisitationid() != null && !this.visitationid.equals(other.visitationid))) {
             return false;
         }
         return true;
@@ -57,21 +57,21 @@ public class Auction implements Serializable {
 
     @Override
     public String toString() {
-        return "persistence.Auction[ id=" + auctionid + " ]";
+        return "persistence.Visitation[ id=" + getVisitationid() + " ]";
     }
 
     /**
-     * @return the auctionid
+     * @return the visitationid
      */
-    public String getAuctionid() {
-        return auctionid;
+    public String getVisitationid() {
+        return visitationid;
     }
 
     /**
-     * @param auctionid the auctionid to set
+     * @param visitationid the visitationid to set
      */
-    public void setAuctionid(String auctionid) {
-        this.auctionid = auctionid;
+    public void setVisitationid(String visitationid) {
+        this.visitationid = visitationid;
     }
 
     /**
@@ -131,17 +131,17 @@ public class Auction implements Serializable {
     }
 
     /**
-     * @return the minimumbid
+     * @return the propertyid
      */
-    public String getMinimumbid() {
-        return minimumbid;
+    public String getPropertyid() {
+        return propertyid;
     }
 
     /**
-     * @param minimumbid the minimumbid to set
+     * @param propertyid the propertyid to set
      */
-    public void setMinimumbid(String minimumbid) {
-        this.minimumbid = minimumbid;
+    public void setPropertyid(String propertyid) {
+        this.propertyid = propertyid;
     }
 
     /**
@@ -157,5 +157,6 @@ public class Auction implements Serializable {
     public void setCategoryid(String categoryid) {
         this.categoryid = categoryid;
     }
+    
     
 }

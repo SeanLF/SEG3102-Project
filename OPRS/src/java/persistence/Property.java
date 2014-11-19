@@ -16,8 +16,8 @@ import javax.persistence.Id;
  * @author Sean
  */
 @Entity
-public class Category implements Serializable {
-    private static  long serialVersionUID = 1L;
+public class Property implements Serializable {
+    private static long serialVersionUID = 1L;
 
     /**
      * @return the serialVersionUID
@@ -33,18 +33,19 @@ public class Category implements Serializable {
         serialVersionUID = aSerialVersionUID;
     }
     @Id
-    private String categoryid;
+    private String propertyid;
+    private String title;
     private String description;
-    private String name;
-    
+    private String useraccountid;
+
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Category)) {
+        if (!(object instanceof Property)) {
             return false;
         }
-        Category other = (Category) object;
-        if ((this.getCategoryid() == null && other.getCategoryid() != null) || (this.categoryid != null && !this.categoryid.equals(other.categoryid))) {
+        Property other = (Property) object;
+        if ((this.getPropertyid()== null && other.getPropertyid() != null) || (this.getPropertyid() != null && !this.propertyid.equals(other.propertyid))) {
             return false;
         }
         return true;
@@ -52,21 +53,35 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return "persistence.Category[ id=" + categoryid + " ]";
+        return "persistence.Property[ id=" + getPropertyid() + " ]";
     }
 
     /**
-     * @return the categoryid
+     * @return the propertyid
      */
-    public String getCategoryid() {
-        return categoryid;
+    public String getPropertyid() {
+        return propertyid;
     }
 
     /**
-     * @param categoryid the categoryid to set
+     * @param propertyid the propertyid to set
      */
-    public void setCategoryid(String categoryid) {
-        this.categoryid = categoryid;
+    public void setPropertyid(String propertyid) {
+        this.propertyid = propertyid;
+    }
+
+    /**
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     /**
@@ -84,17 +99,16 @@ public class Category implements Serializable {
     }
 
     /**
-     * @return the name
+     * @return the useraccountid
      */
-    public String getName() {
-        return name;
+    public String getUseraccountid() {
+        return useraccountid;
     }
 
     /**
-     * @param name the name to set
+     * @param useraccountid the useraccountid to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setUseraccountid(String useraccountid) {
+        this.useraccountid = useraccountid;
     }
-    
 }
