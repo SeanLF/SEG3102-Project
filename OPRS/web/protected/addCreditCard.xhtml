@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:mdjnm="http://mojarra.dev.java.net/mojarra_ext">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/template.xhtml">
+
+            <ui:define name="content">
+                <h1><i class="fa fa-credit-card"></i>&nbsp;Add Credit Card</h1>
+                <f:view>
+                    <h:form>
+                        <h:inputHidden id="useraccountid"  value="#{sessionScope.UserAccount.userId}"/>
+                        <h:panelGrid columns="3">
+
+                            <h:outputText value="CC number"></h:outputText>
+                            <h:inputText id="number" value="#{creditCardBean.number}" required="true" requiredMessage="Please enter Credit Card number"/>
+                            <h:message id="numberMsg" for="number" errorStyle="color:red; display:block"/>
+
+                            <h:outputText value="Type"></h:outputText>
+                            <h:inputText id="type" value="#{creditCardBean.type}" required="true" requiredMessage="Please enter a type">
+                            </h:inputText>  
+                            <h:message id="typeMsg" for="type" errorStyle="color:red; display:block" styleClass="errorMessage"/>
+
+                            <h:outputText value="Expiration Year"></h:outputText>
+                            <h:inputText id="expYear" value="#{creditCardBean.expirationyear}" required="true" requiredMessage="Please enter an expiration year">
+                            </h:inputText>
+                            <h:message id="expYMsg" for="expYear" errorStyle="color:red; display:block" styleClass="errorMessage"/>
+
+                            <h:outputText value="Expiration Month"></h:outputText>
+                            <h:inputText id="expMonth" value="#{creditCardBean.expirationmonth}" required="true" requiredMessage="Please enter an expiration month">
+                            </h:inputText>
+                            <h:message id="expMMsg" for="expMonth" errorStyle="color:red; display:block" styleClass="errorMessage"/>
+
+                            <h:outputText value="Name On Card"/>
+                            <h:inputText id="nameoncard" value="#{creditCardBean.nameoncard}" required="true" requiredMessage="Please enter the name on card"/>
+                            <h:message id="nameMsg" for="nameoncard" errorStyle="color:red; display:block" styleClass="errorMessage"/>
+
+                        </h:panelGrid>
+                        <h:commandButton value="Add" type="command"  actionListener="#{creditCardBean.addCreditCard}">
+                            <f:ajax execute="useraccountid number type expYear expMonth nameoncard" 
+                                    render="numberMsg typeMsg expYMsg expMMsg nameMsg status"/>
+                        </h:commandButton>
+                        <h:commandButton value="Cancel" type="reset" />
+
+                        <div>
+                            <hr/>
+                            <hr/>
+                            <h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="status" value="#{creditCardBean.status}"/>
+                        </div>
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

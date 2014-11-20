@@ -26,6 +26,7 @@ public class CreditCardBean {
     private String expirationmonth;
     private String expirationyear;
     private String nameoncard;
+    private String useraccountid;
     @PersistenceContext(unitName = "OPRS")
     private EntityManager em;
     @Resource
@@ -141,6 +142,7 @@ public class CreditCardBean {
             cc.setExpirationyear(expirationyear);
             cc.setNameoncard(nameoncard);
             cc.setType(type);
+            cc.setUseraccountid(useraccountid);
             
             persist(cc);
             status="Successfuly added Credit Card";
@@ -148,6 +150,20 @@ public class CreditCardBean {
             Logger.getLogger(CreditCardBean.class.getName()).log(Level.SEVERE, null, ex);
             status="Error While Creating New Credit Card";
         }
+    }
+
+    /**
+     * @return the useraccountid
+     */
+    public String getUseraccountid() {
+        return useraccountid;
+    }
+
+    /**
+     * @param useraccountid the useraccountid to set
+     */
+    public void setUseraccountid(String useraccountid) {
+        this.useraccountid = useraccountid;
     }
     
 }
