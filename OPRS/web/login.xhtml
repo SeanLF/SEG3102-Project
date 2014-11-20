@@ -12,23 +12,23 @@
             <ui:define name="content">
                 <f:view>
                     <h:form>
-                    <h:panelGrid columns="2">
-                    <h:outputText value="User Id"></h:outputText>
-                    <h:inputText id="id" value="#{loginBean.userId}">
-                    </h:inputText>          
-                    <h:outputText value="Password"></h:outputText>
-                    <h:inputSecret id="passwd" value="#{loginBean.password}">
-                    </h:inputSecret>          
-                    </h:panelGrid>
-                   <h:commandButton value="Login" type="command"  actionListener="#{loginBean.login}">
-                   <f:ajax execute="id  passwd" 
-                           render="status"/>
-                    </h:commandButton>      
-                <div>
-                    <hr/>
-                    <hr/>
-                <h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="status" value="#{loginBean.status}"/>
-                </div>
+                        <h:panelGrid columns="2">
+
+                            <h:outputText value="User Id"></h:outputText>
+                            <h:inputText id="id" value="#{loginBean.userId}">
+                            </h:inputText>          
+
+                            <h:outputText value="Password"></h:outputText>
+                            <h:inputSecret id="passwd" value="#{loginBean.password}">
+                            </h:inputSecret>       
+                            
+                        </h:panelGrid>
+
+                        <h:commandButton value="Login" type="command"  actionListener="#{loginBean.login}"/>
+                        <div>
+                            <br/>
+                            <h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="status" value="#{loginBean.status}"/>
+                        </div>
                     </h:form>
                 </f:view>
 

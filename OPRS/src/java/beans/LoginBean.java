@@ -6,6 +6,7 @@
 
 package beans;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -90,11 +91,11 @@ public class LoginBean {
                      //login ok - set user in session context
                      HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
                      session.setAttribute("User", acc);
-                     status="Login Successful - " + "Welcome " + acc.getFirstname(); 
+                     FacesContext.getCurrentInstance().getExternalContext().dispatch("protected/welcome.xhtml");
                  } else {
                     status="Invalid Login, Please Try again"; 
                  }
-             } catch (UnsupportedEncodingException | NoSuchAlgorithmException ex) {
+             } catch (Exception ex) {
                  Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
              }
          } else {

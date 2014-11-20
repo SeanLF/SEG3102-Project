@@ -46,7 +46,7 @@
                     <h:message id="passwdMsg" for="passwd" errorStyle="color:red; display:block" styleClass="errorMessage"/>
                  
                     </h:panelGrid>
-                <h:commandButton value="Add" type="command"  actionListener="#{signInBean.addUser}">
+                <h:commandButton value="Register" type="command"  actionListener="#{signInBean.addUser}">
                    <f:ajax execute="id fname lname birthdate city passwd" 
                            render="status idMsg fnameMsg lnameMsg birthdateMsg cityMsg passwdMsg"/>
                 </h:commandButton>

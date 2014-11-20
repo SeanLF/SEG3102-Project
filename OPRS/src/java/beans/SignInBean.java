@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package beans;
 
 import java.io.UnsupportedEncodingException;
@@ -16,9 +15,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpSession;
 import persistence.CreditCard;
 import persistence.UserAccount;
 
@@ -29,6 +30,7 @@ import persistence.UserAccount;
 @Named(value = "signInBean")
 @RequestScoped
 public class SignInBean {
+
     private String userId;
     private String firstname;
     private String lastname;
@@ -39,8 +41,9 @@ public class SignInBean {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    
+
     private String status;
+
     /**
      * Creates a new instance of SignInBean
      */
@@ -137,7 +140,7 @@ public class SignInBean {
     public String getStatus() {
         return status;
     }
-    
+
     public void persist(Object object) {
         try {
             utx.begin();
@@ -148,7 +151,7 @@ public class SignInBean {
             throw new RuntimeException(e);
         }
     }
-    
+
     public void addUser() {
         try {
             UserAccount acc = new UserAccount();
@@ -164,16 +167,19 @@ public class SignInBean {
             String saltString = new String(salt, "UTF-8");
             // hash password using SHA-256 algorithm
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            String saltedPass = saltString+password;
+            String saltedPass = saltString + password;
             byte[] passhash = digest.digest(saltedPass.getBytes("UTF-8"));
             acc.setSalt(salt);
             acc.setPassword(passhash);
             persist(acc);
-            status="New Account Created Fine";
-        } catch (UnsupportedEncodingException | NoSuchAlgorithmException | RuntimeException ex ) {
+            status = "New Account Created Fine";
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            session.setAttribute("User", acc);
+            FacesContext.getCurrentInstance().getExternalContext().dispatch("protected/welcome.xhtml");
+        } catch (Exception ex) {
             Logger.getLogger(SignInBean.class.getName()).log(Level.SEVERE, null, ex);
-            status="Error While Creating New Account";
+            status = "Error While Creating New Account";
         }
     }
-    
+
 }

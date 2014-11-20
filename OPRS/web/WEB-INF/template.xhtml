@@ -21,21 +21,22 @@
                     <h1><BIG><i class="fa fa-home">&nbsp;</i>Dream Homes</BIG></h1>
                 </div>
 
-                <h:panelGrid columns="5">
-                    <h:button value="Public Page" outcome="/public/welcome"/>
-                    <h:button value="Private Page" outcome="/protected/welcome"/>
+                <h:panelGrid columns="7">
                     <h:outputLabel></h:outputLabel>
-                        <c:if test="${sessionScope.User.lastname!=null}">
-                            <h:form>
-                <h:commandButton value="Logout" type="command"  action="#{loginBean.logout}"> 
-                </h:commandButton> 
-                    </h:form>
-                        </c:if>
+                    <c:if test="${sessionScope.User.lastname!=null}">
+                        <h:button value="Home" outcome="/protected/welcome"/>
+                        <h:form>
+                            <h:commandButton value="Logout" type="command"  action="#{loginBean.logout}"> 
+                            </h:commandButton> 
+                        </h:form>
+                    </c:if>
 
-                        <c:if test="${sessionScope.User.lastname==null}">
-                            <h:button value="Register" outcome="signIn"/>
-                            <h:button value="Log In" outcome="login"/>
-                        </c:if>
+                    <c:if test="${sessionScope.User.lastname==null}">
+                        <h:button value="Home" outcome="/public/welcome"/>
+                        <h:button value="Register" outcome="signIn"/>
+                        <h:button value="Log In" outcome="login"/>
+                    </c:if>
+                    <h:button value="Search" outcome="search"/>
                 </h:panelGrid>
 
             </ui:insert>
