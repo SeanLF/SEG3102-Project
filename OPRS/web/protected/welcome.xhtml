@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
@@ -12,32 +13,36 @@
             <ui:define name="content">
                 <h1>Welcome, #{sessionScope.User.firstname} #{sessionScope.User.lastname}</h1>
                 <p>
-                    <strong>Client</strong>
+                    <strong>Client Links</strong>
                     <ul>
                         <li>
                             <a href="">Browse Catalog.</a>
-                        </li>
-                    </ul>
-                </p>
-                <p>
-                    <strong>Owner</strong>
-                    <ul>
-                        <li>
-                            <h:button value="View My Properties" outcome="/protected/viewOwnerProperties"/>
-                        </li>
-                        <li>
-                            <h:button value="Add Property" outcome="/protected/addProperty"/>
                         </li>
                         <li>
                             <h:button value="Add Credit Card" outcome="/protected/addCreditCard"/>
                         </li>
                     </ul>
                 </p>
+
+                <p>
+                    <strong>Owner Links</strong>
+                    <ul>
+                        <c:if test="#{sessionScope.Owner}">
+                            <li>
+                                <h:button value="View My Properties" outcome="/protected/viewOwnerProperties"/>
+                            </li>
+                        </c:if>
+                        <li>
+                            <h:button value="Add Property" outcome="/protected/addProperty"/>
+                        </li>
+                    </ul>
+                </p>
+
                 <f:view>
                     <h:button value="My Account" outcome="/protected/myAccount"/>
                     <h:form>
-                <h:commandButton value="Logout" type="command"  action="#{loginBean.logout}"> 
-                </h:commandButton> 
+                        <h:commandButton value="Logout" type="command"  action="#{loginBean.logout}"> 
+                        </h:commandButton> 
                     </h:form>
                 </f:view>
             </ui:define>

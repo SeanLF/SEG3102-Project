@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpSession;
 import persistence.CreditCard;
+import persistence.UserAccount;
 
 /**
  *
@@ -136,26 +137,28 @@ public class CreditCardBean {
         }
     }
     
-    public void addCreditCard() {
+    public String addCreditCard() {
         try {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            UserAccount acc = (UserAccount)session.getAttribute("User");
+            String user = acc.getUserId();
             
             CreditCard cc = new CreditCard();
-            cc.setUseraccountid(session.getAttribute("userId").toString());
             cc.setNumber(number);
             cc.setExpirationmonth(expirationmonth);
             cc.setExpirationyear(expirationyear);
             cc.setNameoncard(nameoncard);
             cc.setType(type);
-            cc.setUseraccountid(useraccountid);
+            cc.setUseraccountid(user);
             
             persist(cc);
             status="Successfuly added Credit Card";
-            FacesContext.getCurrentInstance().getExternalContext().dispatch("protected/myAccount");
+            return "myAccount" ;
         } catch (Exception ex ) {
             Logger.getLogger(CreditCardBean.class.getName()).log(Level.SEVERE, null, ex);
             status="Error While Creating New Credit Card";
         }
+        return null;
     }
 
     /**

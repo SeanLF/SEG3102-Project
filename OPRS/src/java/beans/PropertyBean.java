@@ -60,16 +60,17 @@ public class PropertyBean {
         }
     }
 
-    public void addProperty() {
+    public String addProperty() {
         try {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             Property p = new Property();
-            String useraccount = (String) session.getAttribute("userId");
-            p.setUseraccountid(useraccount);
+            UserAccount useraccount = (UserAccount) session.getAttribute("User");
+            p.setUseraccountid(useraccount.getUserId());
             p.setDescription(getDescription());
             p.setTitle(getTitle());
+            p.setArchived(false);
             p.setUseraccountid(getUseraccountid());
-            setPropertyid(getUseraccountid() + "_" + getTitle());
+            setPropertyid(useraccount.getUserId()+ "_" + getTitle());
             p.setPropertyid(getPropertyid());
             p.setAddress(getAddress());
             p.setRent(getRent());
@@ -82,11 +83,12 @@ public class PropertyBean {
             acc.setHasProperties(true);
             persist(acc);
             session.setAttribute("Owner", true);
-            FacesContext.getCurrentInstance().getExternalContext().dispatch("protected/viewOwnerProperties");
+            return "viewOwnerProperties";
         } catch (Exception ex) {
             Logger.getLogger(PropertyBean.class.getName()).log(Level.SEVERE, null, ex);
             status = "Error While Creating New Property";
         }
+        return null;
     }
 
     public void deleteProperty() {
