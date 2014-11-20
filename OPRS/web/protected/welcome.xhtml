@@ -27,7 +27,7 @@
                 <p>
                     <strong>Owner Links</strong>
                     <ul>
-                        <c:if test="#{sessionScope.Owner}">
+                        <c:if test="#{sessionScope.Owner==true}">
                             <li>
                                 <h:button value="View My Properties" outcome="/protected/viewOwnerProperties"/>
                             </li>

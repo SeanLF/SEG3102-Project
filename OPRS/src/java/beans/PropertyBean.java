@@ -66,12 +66,10 @@ public class PropertyBean {
             Property p = new Property();
             UserAccount useraccount = (UserAccount) session.getAttribute("User");
             p.setUseraccountid(useraccount.getUserId());
-            p.setDescription(getDescription());
-            p.setTitle(getTitle());
+            p.setDescription(description);
+            p.setTitle(title);
             p.setArchived(false);
-            p.setUseraccountid(getUseraccountid());
-            setPropertyid(useraccount.getUserId()+ "_" + getTitle());
-            p.setPropertyid(getPropertyid());
+            p.setPropertyid(useraccount.getUserId() + "_" + title);
             p.setAddress(getAddress());
             p.setRent(getRent());
 
@@ -79,7 +77,7 @@ public class PropertyBean {
             status = "Successfuly added Property";
 
             // make the client an owner
-            UserAccount acc = em.find(UserAccount.class, useraccount);
+            UserAccount acc = em.find(UserAccount.class, useraccount.getUserId());
             acc.setHasProperties(true);
             persist(acc);
             session.setAttribute("Owner", true);
