@@ -89,7 +89,7 @@ public class LoginBean {
                  if (Arrays.equals(checkPassHash, acc.getPassword())) {
                      //login ok - set user in session context
                      HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-                     session.setAttribute("UserAccount", acc);
+                     session.setAttribute("User", acc);
                      status="Login Successful - " + "Welcome " + acc.getFirstname(); 
                  } else {
                     status="Invalid Login, Please Try again"; 
