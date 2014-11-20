@@ -173,7 +173,7 @@ public class SignInBean {
             acc.setPassword(passhash);
             persist(acc);
             status = "New Account Created Fine";
-            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             session.setAttribute("User", acc);
             FacesContext.getCurrentInstance().getExternalContext().dispatch("protected/welcome.xhtml");
         } catch (Exception ex) {

@@ -10,8 +10,10 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpSession;
 import persistence.CreditCard;
 
 /**
@@ -136,7 +138,10 @@ public class CreditCardBean {
     
     public void addCreditCard() {
         try {
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            
             CreditCard cc = new CreditCard();
+            cc.setUseraccountid(session.getAttribute("userId").toString());
             cc.setNumber(number);
             cc.setExpirationmonth(expirationmonth);
             cc.setExpirationyear(expirationyear);
@@ -146,6 +151,7 @@ public class CreditCardBean {
             
             persist(cc);
             status="Successfuly added Credit Card";
+            FacesContext.getCurrentInstance().getExternalContext().dispatch("protected/myAccount");
         } catch (Exception ex ) {
             Logger.getLogger(CreditCardBean.class.getName()).log(Level.SEVERE, null, ex);
             status="Error While Creating New Credit Card";

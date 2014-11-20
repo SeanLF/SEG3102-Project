@@ -10,8 +10,10 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpSession;
 import persistence.Property;
 
 /**
@@ -52,8 +54,9 @@ public class PropertyBean {
     
     public void addProperty() {
         try {
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             Property p = new Property();
-            
+            p.setUseraccountid((String)session.getAttribute("userId"));
             p.setDescription(getDescription());
             p.setTitle(getTitle());
             p.setUseraccountid(getUseraccountid());
@@ -64,6 +67,7 @@ public class PropertyBean {
             
             persist(p);
             status ="Successfuly added Property";
+            FacesContext.getCurrentInstance().getExternalContext().dispatch("protected/viewProperties");
         } catch (Exception ex ) {
             Logger.getLogger(PropertyBean.class.getName()).log(Level.SEVERE, null, ex);
             status = "Error While Creating New Property";

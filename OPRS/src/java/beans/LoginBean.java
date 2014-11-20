@@ -89,7 +89,7 @@ public class LoginBean {
                  byte[] checkPassHash = digest.digest(checkPass.getBytes("UTF-8"));
                  if (Arrays.equals(checkPassHash, acc.getPassword())) {
                      //login ok - set user in session context
-                     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+                     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                      session.setAttribute("User", acc);
                      FacesContext.getCurrentInstance().getExternalContext().dispatch("protected/welcome.xhtml");
                  } else {

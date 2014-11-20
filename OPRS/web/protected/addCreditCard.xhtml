@@ -14,9 +14,9 @@
                 <h1><i class="fa fa-credit-card"></i>&nbsp;Add Credit Card</h1>
                 <f:view>
                     <h:form>
-                        <h:inputHidden id="useraccountid"  value="#{sessionScope.UserAccount.userId}"/>
+                        
                         <h:panelGrid columns="3">
-
+                        
                             <h:outputText value="CC number"></h:outputText>
                             <h:inputText id="number" value="#{creditCardBean.number}" required="true" requiredMessage="Please enter Credit Card number"/>
                             <h:message id="numberMsg" for="number" errorStyle="color:red; display:block"/>
@@ -42,7 +42,7 @@
 
                         </h:panelGrid>
                         <h:commandButton value="Add" type="command"  actionListener="#{creditCardBean.addCreditCard}">
-                            <f:ajax execute="useraccountid number type expYear expMonth nameoncard" 
+                            <f:ajax execute="number type expYear expMonth nameoncard" 
                                     render="numberMsg typeMsg expYMsg expMMsg nameMsg status"/>
                         </h:commandButton>
                         <h:commandButton value="Cancel" type="reset" />
