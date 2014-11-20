@@ -152,7 +152,7 @@ public class SignInBean {
         }
     }
 
-    public void addUser() {
+    public String addUser() {
         try {
             UserAccount acc = new UserAccount();
             acc.setUserId(userId);
@@ -175,11 +175,12 @@ public class SignInBean {
             status = "New Account Created Fine";
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             session.setAttribute("User", acc);
-            FacesContext.getCurrentInstance().getExternalContext().dispatch("protected/welcome.xhtml");
+            return "/protected/welcome";
         } catch (Exception ex) {
             Logger.getLogger(SignInBean.class.getName()).log(Level.SEVERE, null, ex);
             status = "Error While Creating New Account";
         }
+        return null;
     }
 
 }
