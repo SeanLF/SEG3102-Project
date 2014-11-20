@@ -23,9 +23,6 @@
                     <strong>Owner</strong>
                     <ul>
                         <li>
-                            <a href="">View my properties.</a>                            
-                        </li>
-                        <li>
                             <h:button value="Add Property" outcome="/protected/addProperty"/>
                         </li>
                         <li>
@@ -34,10 +31,7 @@
                     </ul>
                 </p>
                 <f:view>
-                    <h:form>
-                <h:commandButton value="View Account" type="command"  action="#{loginBean.viewaccount}"> 
-                </h:commandButton> 
-                    </h:form>
+                    <h:button value="My Account" outcome="/protected/myAccount"/>
                     <h:form>
                 <h:commandButton value="Logout" type="command"  action="#{loginBean.logout}"> 
                 </h:commandButton> 

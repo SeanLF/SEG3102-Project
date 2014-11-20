@@ -22,5 +22,16 @@
             <to-view-id>/search.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>protected/*</from-view-id>
+        <navigation-case>
+            <from-outcome>viewOwnerProperties</from-outcome>
+            <to-view-id>/protected/viewOwnerProperties.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>myAccount</from-outcome>
+            <to-view-id>/protected/myAccount.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
     
 </faces-config>

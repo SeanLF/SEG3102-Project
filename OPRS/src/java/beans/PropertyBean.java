@@ -67,7 +67,7 @@ public class PropertyBean {
             
             persist(p);
             status ="Successfuly added Property";
-            FacesContext.getCurrentInstance().getExternalContext().dispatch("protected/viewProperties");
+            FacesContext.getCurrentInstance().getExternalContext().dispatch("protected/viewOwnerProperties");
         } catch (Exception ex ) {
             Logger.getLogger(PropertyBean.class.getName()).log(Level.SEVERE, null, ex);
             status = "Error While Creating New Property";
