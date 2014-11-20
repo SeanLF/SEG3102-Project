@@ -37,6 +37,8 @@ public class Property implements Serializable {
     private String title;
     private String description;
     private String useraccountid;
+    private String address;
+    private double rent;
 
     @Override
     public boolean equals(Object object) {
@@ -54,6 +56,34 @@ public class Property implements Serializable {
     @Override
     public String toString() {
         return "persistence.Property[ id=" + getPropertyid() + " ]";
+    }
+    
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
+     /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+    
+    /**
+     * @param rent the rent to set
+     */
+    public void setRent(double rent) {
+        this.rent = rent;
+    }
+    
+     /**
+     * @return the rent
+     */
+    public double getRent() {
+        return rent;
     }
 
     /**

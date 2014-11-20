@@ -25,6 +25,8 @@ public class PropertyBean {
     private String title;
     private String description;
     private String useraccountid;
+    private String address;
+    private double rent;
     @PersistenceContext(unitName = "OPRS")
     private EntityManager em;
     @Resource
@@ -57,12 +59,14 @@ public class PropertyBean {
             p.setUseraccountid(getUseraccountid());
             setPropertyid(getUseraccountid() + "_" + getTitle());
             p.setPropertyid(getPropertyid());
+            p.setAddress(getAddress());
+            p.setRent(getRent());
             
             persist(p);
-            setStatus("Successfuly added Property");
+            status ="Successfuly added Property";
         } catch (Exception ex ) {
             Logger.getLogger(PropertyBean.class.getName()).log(Level.SEVERE, null, ex);
-            setStatus("Error While Creating New Property");
+            status = "Error While Creating New Property";
         }
     }
 
@@ -72,7 +76,35 @@ public class PropertyBean {
     public String getPropertyid() {
         return propertyid;
     }
-
+    
+     /**
+     * @return the rent
+     */
+    public double getRent() {
+        return rent;
+    }
+    
+        /**
+     * @param rent the rent to set
+     */
+    public void setRent(double rent) {
+        this.rent=rent;
+    }
+    
+       /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+    
+     /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
     /**
      * @param propertyid the propertyid to set
      */
@@ -129,11 +161,5 @@ public class PropertyBean {
         return status;
     }
 
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(String status) {
-        this.status = status;
-    }
     
 }
