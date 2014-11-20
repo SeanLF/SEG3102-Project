@@ -39,6 +39,7 @@ public class Property implements Serializable {
     private String useraccountid;
     private String address;
     private double rent;
+    private boolean archived;
 
     @Override
     public boolean equals(Object object) {
@@ -140,5 +141,19 @@ public class Property implements Serializable {
      */
     public void setUseraccountid(String useraccountid) {
         this.useraccountid = useraccountid;
+    }
+
+    /**
+     * @return the archived
+     */
+    public boolean isArchived() {
+        return archived;
+    }
+
+    /**
+     * @param archived the archived to set
+     */
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 }
