@@ -14,43 +14,41 @@
                 <h1>Create New Property...</h1>
                 <f:view>
                     <h:form>
-                    <h:panelGrid columns="3">
-                    <h:outputText value="Description"></h:outputText>
-                    <h:inputText id="description" value="#{propertyBean.description}" required="true" requiredMessage="Please enter Property Description">
-                    </h:inputText>
-                    <h:message id="descriptionMsg" for="description" errorStyle="color:red; display:block"/>
-                    <h:outputText value="Set Title"></h:outputText>
-                    <h:inputText id="title" value="#{propertyBean.title}" required="true" requiredMessage="Please enter Title">
-                    </h:inputText>
-                    <h:message id="titleMsg" for="title" errorStyle="color:red; display:block" styleClass="errorMessage"/>
-                    <h:outputText value="User Account ID"></h:outputText>
-                    <h:inputText id="useraccountid" value="#{propertyBean.useraccountid}" required="true" requiredMessage="Please enter useraccountid">
-                    </h:inputText>
-                    <h:message id="useraccountidMsg" for="useraccountid" errorStyle="color:red; display:block" styleClass="errorMessage"/>
-                    <h:outputText value="Property ID"></h:outputText>
-                    <h:inputText id="propertyid" value="#{propertyBean.propertyid}" required="true" requiredMessage="Please enter propertyid">
-                    </h:inputText>
-                    <h:message id="propertyidMsg" for="propertyid" errorStyle="color:red; display:block" styleClass="errorMessage"/>
-                    <h:outputText value="Address"></h:outputText>
-                    <h:inputText id="address" value="#{propertyBean.address}" required="true" requiredMessage="Please enter Address">
-                    </h:inputText>
-                    <h:message id="addressMsg" for="address" errorStyle="color:red; display:block" styleClass="errorMessage"/>
-                    <h:outputText value="Rent"></h:outputText>
-                    <h:inputText id="rent" value="#{propertyBean.rent}" required="true" requiredMessage="Please enter Rent">
-                    </h:inputText>
-                    <h:message id="rentMsg" for="rent" errorStyle="color:red; display:block" styleClass="errorMessage"/>
-                    </h:panelGrid>
-                <h:commandButton value="Add" type="command"  actionListener="#{propertyBean.addProperty}">
-                   <f:ajax execute="description title useraccountid propertyid address rent" 
-                           render="descriptionMsg titleMsg useraccountidMsg propertyidMsg addressMsg rentMsg"/>
-                </h:commandButton>
-                <h:commandButton value="Cancel" type="reset" />
-                
-                <div>
-                    <hr/>
-                    <hr/>
-                <h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="status" value="#{propertyBean.status}"/>
-                </div>
+                        <h:inputHidden id="useraccountid"  value="#{sessionScope.User.userId}"/>
+                        <h:panelGrid columns="3">
+
+                            <h:outputText value="Description"></h:outputText>
+                            <h:inputTextarea id="description" value="#{propertyBean.description}" required="true" requiredMessage="Please enter Property Description"/>
+                            <h:message id="descriptionMsg" for="description" errorStyle="color:red; display:block"/>
+
+                            <h:outputText value="Name"></h:outputText>
+                            <h:inputText id="title" value="#{propertyBean.title}" required="true" requiredMessage="Please enter Title">
+                            </h:inputText>
+                            <h:message id="titleMsg" for="title" errorStyle="color:red; display:block" styleClass="errorMessage"/>
+
+
+
+                            <h:outputText value="Address"></h:outputText>
+                            <h:inputText id="address" value="#{propertyBean.address}" required="true" requiredMessage="Please enter Address">
+                            </h:inputText>
+                            <h:message id="addressMsg" for="address" errorStyle="color:red; display:block" styleClass="errorMessage"/>
+
+                            <h:outputText value="Rent"></h:outputText>
+                            <h:inputText id="rent" value="#{propertyBean.rent}" required="true" requiredMessage="Please enter Rent">
+                            </h:inputText>
+                            <h:message id="rentMsg" for="rent" errorStyle="color:red; display:block" styleClass="errorMessage"/>
+                        </h:panelGrid>
+                        <h:commandButton value="Add" type="command"  actionListener="#{propertyBean.addProperty}">
+                            <f:ajax execute="description title useraccountid propertyid address rent" 
+                                    render="descriptionMsg titleMsg useraccountidMsg propertyidMsg addressMsg rentMsg"/>
+                        </h:commandButton>
+                        <h:commandButton value="Cancel" type="reset" />
+
+                        <div>
+                            <hr/>
+                            <hr/>
+                            <h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="status" value="#{propertyBean.status}"/>
+                        </div>
                     </h:form>
                 </f:view>
 

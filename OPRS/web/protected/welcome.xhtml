@@ -10,7 +10,7 @@
         <ui:composition template="./../WEB-INF/template.xhtml">
 
             <ui:define name="content">
-                <h1>You are in the Protected Part of our Site...#{sessionScope.User.firstname} #{sessionScope.User.lastname}</h1>
+                <h1>You are in the Protected Part of our Site...#{sessionScope.UserAccount.firstname} #{sessionScope.UserAccount.lastname}</h1>
                 <p>
                     <strong>Client</strong>
                     <ul>
@@ -26,7 +26,7 @@
                             <a href="">View my properties.</a>                            
                         </li>
                         <li>
-                            <a href="addProperty.xhtml">Add property.</a>
+                            <h:button value="Add Property" outcome="/protected/addProperty"/>
                         </li>
                     </ul>
                 </p>
