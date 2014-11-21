@@ -57,6 +57,9 @@ public class PropertyBean {
      * Creates a new instance of PropertyBean
      */
     public PropertyBean() {
+        viewOwnerP = new ArrayList<>();
+        searchResults = new ArrayList<>();
+        browseCatalogP = new ArrayList<>();
     }
 
     public void persist(Object object) {
@@ -137,13 +140,12 @@ public class PropertyBean {
     }
 
     public void searchProperties() {
+        searchResults = new ArrayList<>();
         if (rent >= 0.0 & maxRent >= rent) {
             // lookup by name
             searchResults = findPropertiesByRent(em, rent, maxRent);
         } else if (rent >= maxRent && maxRent >= 0) {
             searchResults = findPropertiesByRent(em, maxRent, rent);
-        } else {
-            searchResults = new ArrayList<>();
         }
     }
 
@@ -159,12 +161,12 @@ public class PropertyBean {
 
     // show searchResults if any
     public boolean getShowResults() {
-        return (searchResults != null) && !searchResults.isEmpty();
+        return (searchResults != null) && searchResults.size() > 0;
     }
 
     // show message if no result
     public boolean getShowMessage() {
-        return (searchResults == null) && searchResults.isEmpty();
+        return (searchResults != null) && searchResults.isEmpty();
     }
 
     /**
@@ -284,14 +286,14 @@ public class PropertyBean {
 
     public static List<Property> findAllProperties(EntityManager em) {
         Query query = em.createQuery(
-                "SELECT p  FROM Property p");
+                "SELECT p  FROM Property p where p.archived=false");
 
         return performQuery(query);
     }
 
     public static List<Property> findPropertiesForUser(EntityManager em, String userid) {
         Query query = em.createQuery(
-                "SELECT p  FROM Property p where p.useraccountid = :userid");
+                "SELECT p  FROM Property p where p.useraccountid = :userid order by p.title");
         query.setParameter("userid", userid);
 
         return performQuery(query);
@@ -299,7 +301,7 @@ public class PropertyBean {
 
     public List<Property> findPropertiesByRent(EntityManager em, double rent, double maxRent) {
         Query query = em.createQuery(
-                "SELECT p  FROM Property p where :minRent <= p.rent and p.rent <= :maxRent")
+                "SELECT p  FROM Property p where :minRent <= p.rent and p.rent <= :maxRent and p.archived=false order by p.rent")
                 .setParameter("minRent", rent)
                 .setParameter("maxRent", maxRent);
 

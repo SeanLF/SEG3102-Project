@@ -34,11 +34,13 @@
                                     <f:facet name="header">Rent</f:facet>
                                     $&nbsp;#{p.rent}
                                 </h:column>
+                                <c:if test="${sessionScope.User!=null}">
                                 <h:column>
                                     <f:facet name="header">Visiting List</f:facet>
                                     <h:commandLink rendered="#{not sessionScope.Owner}"><i class="fa fa-plus"></i></h:commandLink>
                                     <h:commandLink rendered="#{sessionScope.Owner}"><i class="fa fa-minus"></i></h:commandLink>
                                 </h:column>
+                                </c:if>
                             </h:dataTable>
 
                         </h:panelGroup>
