@@ -14,14 +14,9 @@
                 <h1><i class="fa fa-search">&nbsp;</i>Browse Catalog</h1>
                 <f:view>
                     <h:form prependId="false">
-                        <h2>Hit the button below to view results!</h2>
-                        <h:commandButton value="Lookup" type="command" actionListener="#{propertyBean.browseCatalog}">
-                            <f:ajax execute="" render="results"/>
-                        </h:commandButton>
-                        <h:commandButton value="Cancel" type="reset" />
-                        <hr/>
+                        
                         <h:panelGroup id="results">
-                            <h:dataTable  rendered="#{propertyBean.showResults}" border="2" bgcolor="yellow" id="resultTable" value="#{propertyBean.searchResults}" var="p">
+                            <h:dataTable   border="2" bgcolor="yellow" id="resultTable" value="#{propertyBean.browseCatalogP}" var="p">
                                 <h:column>
                                     <f:facet name="header">Property Name</f:facet>
                                         #{p.title}
@@ -53,7 +48,7 @@
                                         </c:if>
                                     </c:if>
                             </h:dataTable>
-                            <h:outputText rendered="#{propertyBean.showMessage}" style="color:red" id="resultMessage" value="No Property Found"/>
+                            
                         </h:panelGroup>
                     </h:form>
                 </f:view>

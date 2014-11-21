@@ -40,6 +40,7 @@ public class Property implements Serializable {
     private String address;
     private double rent;
     private boolean archived;
+    private boolean editable;
 
     @Override
     public boolean equals(Object object) {
@@ -155,5 +156,19 @@ public class Property implements Serializable {
      */
     public void setArchived(boolean archived) {
         this.archived = archived;
+    }
+
+    /**
+     * @return the editable
+     */
+    public boolean isEditable() {
+        return editable;
+    }
+
+    /**
+     * @param editable the editable to set
+     */
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
 }

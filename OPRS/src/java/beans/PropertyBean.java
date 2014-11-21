@@ -42,7 +42,10 @@ public class PropertyBean {
     private double rent;
     private double maxRent;
     private boolean archived;
+    private boolean editable;
+    private List<Property> viewOwnerP;
     private List<Property> searchResults;
+    private List<Property> browseCatalogP;
     @PersistenceContext(unitName = "OPRS")
     private EntityManager em;
     @Resource
@@ -107,18 +110,17 @@ public class PropertyBean {
         return null;
     }
 
-    public void deleteProperty() {
+    public void deleteProperty(Property p) {
         try {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-            Property p = em.find(Property.class, propertyid);
-            String useraccount = (String) session.getAttribute("userId");
+            p = em.find(Property.class, p.getPropertyid());
+            UserAccount useraccount = (UserAccount)session.getAttribute("User");
             p.setArchived(true);
 
-            persist(p);
-            status = "Successfuly deleted Property";
+            update(p);
 
             // is the client still an owner?
-            UserAccount acc = em.find(UserAccount.class, useraccount);
+            UserAccount acc = em.find(UserAccount.class, useraccount.getUserId());
             boolean isOwner = findPropertiesForUser(em, acc.getUserId()).size() > 0;
             acc.setHasProperties(isOwner);
             persist(acc);
@@ -138,21 +140,21 @@ public class PropertyBean {
         if (rent >= 0.0 & maxRent >= rent) {
             // lookup by name
             searchResults = findPropertiesByRent(em, rent, maxRent);
-        } else if(rent >= maxRent && maxRent >= 0){
+        } else if (rent >= maxRent && maxRent >= 0) {
             searchResults = findPropertiesByRent(em, maxRent, rent);
-        } else{
+        } else {
             searchResults = new ArrayList<>();
         }
     }
-    
-    public void viewOwnerProperties(){
+
+    public void viewOwnerProperties() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        UserAccount acc = (UserAccount)session.getAttribute("User");
-       searchResults = findPropertiesForUser(em,  acc.getUserId());
+        UserAccount acc = (UserAccount) session.getAttribute("User");
+        viewOwnerP = findPropertiesForUser(em, acc.getUserId());
     }
-    
-    public void browseCatalog(){
-        searchResults = findAllProperties(em);
+
+    public void browseCatalog() {
+        browseCatalogP = findAllProperties(em);
     }
 
     // show searchResults if any
@@ -161,9 +163,8 @@ public class PropertyBean {
     }
 
     // show message if no result
-
     public boolean getShowMessage() {
-        return (searchResults != null) && searchResults.isEmpty();
+        return (searchResults == null) && searchResults.isEmpty();
     }
 
     /**
@@ -280,7 +281,7 @@ public class PropertyBean {
         results.addAll(resultList);
         return results;
     }
-    
+
     public static List<Property> findAllProperties(EntityManager em) {
         Query query = em.createQuery(
                 "SELECT p  FROM Property p");
@@ -331,5 +332,70 @@ public class PropertyBean {
      */
     public void setMaxRent(double maxRent) {
         this.maxRent = maxRent;
+    }
+
+    /**
+     * @return the editable
+     */
+    public boolean isEditable() {
+        return editable;
+    }
+
+    /**
+     * @param editable the editable to set
+     */
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
+    public String saveAction() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        UserAccount useraccount = (UserAccount)session.getAttribute("User");
+        useraccount = em.find(UserAccount.class, useraccount);
+        for (Property p : searchResults) {
+            update(p);
+        }
+        searchResults = findPropertiesForUser(em, useraccount.getUserId());
+        return null;
+    }
+    
+    public String editAction(Property p){
+         p.setEditable(true);
+         return null;
+    }
+    
+    public String deleteAction(Property p){
+         deleteProperty(p);
+         return null;
+    }
+
+    /**
+     * @return the viewOwnerP
+     */
+    public List<Property> getViewOwnerP() {
+        viewOwnerProperties();
+        return viewOwnerP;
+    }
+
+    /**
+     * @param viewOwnerP the viewOwnerP to set
+     */
+    public void setViewOwnerP(List<Property> viewOwnerP) {
+        this.viewOwnerP = viewOwnerP;
+    }
+
+    /**
+     * @return the browseCatalogP
+     */
+    public List<Property> getBrowseCatalogP() {
+        browseCatalog();
+        return browseCatalogP;
+    }
+
+    /**
+     * @param browseCatalogP the browseCatalogP to set
+     */
+    public void setBrowseCatalogP(List<Property> browseCatalogP) {
+        this.browseCatalogP = browseCatalogP;
     }
 }

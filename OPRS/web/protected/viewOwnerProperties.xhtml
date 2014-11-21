@@ -12,42 +12,46 @@
             <ui:define name="content">
                 <h1><i class="fa fa-home">&nbsp;</i>My Properties!</h1>
                 <f:view>
-                    <h:form prependId="false">
-                        <h2>Hit the button below to view results!</h2>
-                        <h:commandButton value="Lookup" type="command" actionListener="#{propertyBean.viewOwnerProperties}">
-                            <f:ajax execute="" render="results"/>
-                        </h:commandButton>
-                        <h:commandButton value="Cancel" type="reset" />
-                        <hr/>
+                    <h:form >
                         <h:panelGroup id="results">
-                            <h:dataTable  rendered="#{propertyBean.showResults}" border="2" bgcolor="yellow" id="resultTable" value="#{propertyBean.searchResults}" var="p">
+                            <h:dataTable   border="2" bgcolor="yellow" id="resultTable" value="#{propertyBean.viewOwnerP}" var="p">
                                 <h:column>
                                     <f:facet name="header">Property Name</f:facet>
-                                        #{p.title}
+                                    <h:outputText value ="#{p.title}" rendered="#{not p.editable}"/>
+                                    <h:inputText value ="#{p.title}" rendered="#{p.editable}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Description</f:facet>
-                                        #{p.description}
+                                    <h:outputText value ="#{p.description}" rendered="#{not p.editable}"/>
+                                    <h:inputText value ="#{p.description}" rendered="#{p.editable}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Address</f:facet>
-                                        #{p.address}
+                                    <h:outputText value ="#{p.address}" rendered="#{not p.editable}"/>
+                                    <h:inputText value ="#{p.address}" rendered="#{p.editable}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Rent</f:facet>
-                                    $&nbsp;#{p.rent}
+                                    <h:outputText value ="$&nbsp;#{p.rent}" rendered="#{not p.editable}"/>
+                                    <h:inputText value ="#{p.rent}" rendered="#{p.editable}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Archived</f:facet>
+                                    <h:outputText value ="#{p.archived}" rendered="#{not p.editable}"/>
+                                    <h:inputText value ="#{p.archived}" rendered="#{p.editable}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Update</f:facet>
-                                    <a href=""><i class="fa fa-pencil-square-o"></i></a>
+                                    <h:commandLink value="Edit" action="#{propertyBean.editAction(p)}" rendered="#{not p.editable}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Delete</f:facet>
-                                    <a href="" style="text-align:center"><i class="fa fa-trash"></i></a>
+                                    <h:commandLink value="Delete" action="#{propertyBean.deleteAction(p)}" rendered="#{not p.editable and not p.archived}"/>
                                 </h:column>
                             </h:dataTable>
-                            <h:outputText rendered="#{propertyBean.showMessage}" style="color:red" id="resultMessage" value="No Property Found"/>
+                            
                         </h:panelGroup>
+                        <h:commandButton value="Save Changes" action="#{propertyBean.saveAction()}"/>
                     </h:form>
                 </f:view>
             </ui:define>

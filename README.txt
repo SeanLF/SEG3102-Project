@@ -8,10 +8,11 @@ Work done so far:
 - created some beans for the user to create new rows in the database: user account, credit card, property
 - template is somewhat presentable
 - create "Facelets Template Client"s to search properties, owner view properties and view account
+- add links to delete a property
 
 Work to be done:
 - fix the redirection when logging in, registering
-- add links to delete and edit a property
+- add links to edit a property
 - add links to add to visiting list
 - create working links to add property to visiting list, update and delete property
 - create "Facelets Template Client"s to view visiting list
