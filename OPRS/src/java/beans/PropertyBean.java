@@ -17,6 +17,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.servlet.http.HttpSession;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import persistence.Property;
 import persistence.UserAccount;
 
@@ -35,7 +40,9 @@ public class PropertyBean {
     private String useraccountid;
     private String address;
     private double rent;
+    private double maxRent;
     private boolean archived;
+    private List<Property> searchResults;
     @PersistenceContext(unitName = "OPRS")
     private EntityManager em;
     @Resource
@@ -54,18 +61,18 @@ public class PropertyBean {
             utx.begin();
             em.persist(object);
             utx.commit();
-        } catch (Exception e) {
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
             throw new RuntimeException(e);
         }
     }
-    
-    public void update(Object object){
-        try{
+
+    public void update(Object object) {
+        try {
             utx.begin();
             em.merge(object);
             utx.commit();
-        } catch (Exception e) {
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
             throw new RuntimeException(e);
         }
@@ -112,7 +119,7 @@ public class PropertyBean {
 
             // is the client still an owner?
             UserAccount acc = em.find(UserAccount.class, useraccount);
-            boolean isOwner = findAllPropertiesForUser(em, acc.getUserId()).size() > 0;
+            boolean isOwner = findPropertiesForUser(em, acc.getUserId()).size() > 0;
             acc.setHasProperties(isOwner);
             persist(acc);
             session.setAttribute("Owner", isOwner);
@@ -125,7 +132,39 @@ public class PropertyBean {
             Logger.getLogger(PropertyBean.class.getName()).log(Level.SEVERE, null, ex);
             status = "Error While Deleting Property";
         }
-    }        
+    }
+
+    public void searchProperties() {
+        if (rent >= 0.0 & maxRent >= rent) {
+            // lookup by name
+            searchResults = findPropertiesByRent(em, rent, maxRent);
+        } else if(rent >= maxRent && maxRent >= 0){
+            searchResults = findPropertiesByRent(em, maxRent, rent);
+        } else{
+            searchResults = new ArrayList<>();
+        }
+    }
+    
+    public void viewOwnerProperties(){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        UserAccount acc = (UserAccount)session.getAttribute("User");
+       searchResults = findPropertiesForUser(em,  acc.getUserId());
+    }
+    
+    public void browseCatalog(){
+        searchResults = findAllProperties(em);
+    }
+
+    // show searchResults if any
+    public boolean getShowResults() {
+        return (searchResults != null) && !searchResults.isEmpty();
+    }
+
+    // show message if no result
+
+    public boolean getShowMessage() {
+        return (searchResults != null) && searchResults.isEmpty();
+    }
 
     /**
      * @return the propertyid
@@ -241,8 +280,15 @@ public class PropertyBean {
         results.addAll(resultList);
         return results;
     }
+    
+    public static List<Property> findAllProperties(EntityManager em) {
+        Query query = em.createQuery(
+                "SELECT p  FROM Property p");
 
-    public static List<Property> findAllPropertiesForUser(EntityManager em, String userid) {
+        return performQuery(query);
+    }
+
+    public static List<Property> findPropertiesForUser(EntityManager em, String userid) {
         Query query = em.createQuery(
                 "SELECT p  FROM Property p where p.useraccountid = :userid");
         query.setParameter("userid", userid);
@@ -250,4 +296,40 @@ public class PropertyBean {
         return performQuery(query);
     }
 
+    public List<Property> findPropertiesByRent(EntityManager em, double rent, double maxRent) {
+        Query query = em.createQuery(
+                "SELECT p  FROM Property p where :minRent <= p.rent and p.rent <= :maxRent")
+                .setParameter("minRent", rent)
+                .setParameter("maxRent", maxRent);
+
+        return performQuery(query);
+    }
+
+    /**
+     * @return the searchResults
+     */
+    public List<Property> getSearchResults() {
+        return searchResults;
+    }
+
+    /**
+     * @param searchResults the searchResults to set
+     */
+    public void setSearchResults(List<Property> searchResults) {
+        this.searchResults = searchResults;
+    }
+
+    /**
+     * @return the maxRent
+     */
+    public double getMaxRent() {
+        return maxRent;
+    }
+
+    /**
+     * @param maxRent the maxRent to set
+     */
+    public void setMaxRent(double maxRent) {
+        this.maxRent = maxRent;
+    }
 }

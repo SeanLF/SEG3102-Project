@@ -112,4 +112,9 @@ public class LoginBean {
         return "logout";
     }
     
+    public boolean isowner(){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        UserAccount acc = (UserAccount)session.getAttribute("User");
+        return em.find(UserAccount.class, acc.getUserId()).isHasProperties();
+    }
 }

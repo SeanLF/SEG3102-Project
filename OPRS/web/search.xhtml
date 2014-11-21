@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
@@ -9,6 +12,62 @@
 
             <ui:define name="content">
                 <h1><i class="fa fa-search">&nbsp;</i>Search</h1>
+                <f:view>
+                    <h:form prependId="false">
+                        <h2>Please indicate your rent range</h2>
+                        <h:panelGrid columns="6">
+                            <h:outputLabel value="Minimum Rent"></h:outputLabel>
+                            <h:inputText id="rent" value="#{propertyBean.rent}"></h:inputText>
+                            <h:outputLabel value="Maximum Rent"></h:outputLabel>
+                            <h:inputText id="maxRent" value="#{propertyBean.maxRent}"></h:inputText>
+                        </h:panelGrid>
+                        <h:commandButton value="Lookup" type="command" actionListener="#{propertyBean.searchProperties}">
+                            <f:ajax execute="rent maxRent" render="results"/>
+                        </h:commandButton>
+                        <h:commandButton value="Cancel" type="reset" />
+
+                        <div>
+                            <hr/>
+
+                            <h:panelGroup id="results">
+                                <h:dataTable  rendered="#{propertyBean.showResults}" border="2" bgcolor="yellow" id="resultTable" value="#{propertyBean.searchResults}" var="p">
+                                    <h:column>
+                                        <f:facet name="header">Property Name</f:facet>
+                                            #{p.title}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Description</f:facet>
+                                            #{p.description}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Address</f:facet>
+                                            #{p.address}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Rent</f:facet>
+                                            $&nbsp;#{p.rent}
+                                    </h:column>
+                                    <c:if test="#{sessionScope.User.userId != null}">
+                                        <c:if test="#{sessionScope.Owner == true}">
+                                            <h:column>
+                                                <f:facet name="header">Add To Visiting List</f:facet>
+                                                <a href=""><i class="fa fa-plus"></i></a>
+                                            </h:column>
+                                        </c:if>
+                                        <c:if test="#{sessionScope.Owner != true}">
+                                            <h:column>
+                                                <f:facet name="header">Remove From Visiting List</f:facet>
+                                                <a href="" style="text-align:center"><i class="fa fa-minus"></i></a>
+                                            </h:column>
+                                        </c:if>
+                                    </c:if>
+                                </h:dataTable>
+                                <h:outputText rendered="#{propertyBean.showMessage}" style="color:red" id="resultMessage" value="No Property Found"/>
+                            </h:panelGroup>
+                        </div>
+
+                    </h:form>
+                </f:view>
             </ui:define>
 
         </ui:composition>

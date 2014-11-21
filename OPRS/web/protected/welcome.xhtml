@@ -16,7 +16,7 @@
                     <strong>Client Links</strong>
                     <ul>
                         <li>
-                            <a href="">Browse Catalog.</a>
+                            <h:button value="Browse Catalog" outcome="browseCatalog"/>
                         </li>
                         <li>
                             <h:button value="Add Credit Card" outcome="/protected/addCreditCard"/>
@@ -27,7 +27,7 @@
                 <p>
                     <strong>Owner Links</strong>
                     <ul>
-                        <c:if test="#{sessionScope.Owner==true}">
+                        <c:if test="#{loginBean.isowner()==true}">
                             <li>
                                 <h:button value="View My Properties" outcome="/protected/viewOwnerProperties"/>
                             </li>

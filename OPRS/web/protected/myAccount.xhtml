@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
@@ -9,6 +10,20 @@
 
             <ui:define name="content">
                 <h1><i class="fa fa-user">&nbsp;</i>My Account</h1>
+                <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="User Id"/>
+                    <h:inputText id="id" value="#{sessionScope.User.userId}" disabled="true"/>
+                    <h:outputText value="First Name"/>
+                    <h:inputText id="fname" value="#{sessionScope.User.firstname}" disabled="true"/>
+                    <h:outputText value="Last Name"/>
+                    <h:inputText id="lname" value="#{sessionScope.User.lastname}" disabled="true"/>
+                    <h:outputText value="Birth Date"/>
+                    <h:inputText id="birthdate" value="#{sessionScope.User.birthDate}" disabled="true"/>
+                    <h:outputText value="Owner"/>
+                    <h:inputText id="owner" value="#{loginBean.isowner()}" disabled="true"/>
+                    
+                </h:panelGrid></h:form>
             </ui:define>
 
         </ui:composition>

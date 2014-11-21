@@ -23,6 +23,7 @@
 
                 <h:panelGrid columns="17">
                     <h:outputLabel></h:outputLabel>
+                    <h:button value="Index" outcome="index"/>
                     <c:if test="${sessionScope.User.lastname!=null}">
                         <h:button value="Home" outcome="/protected/welcome"/>
                         <h:form>
