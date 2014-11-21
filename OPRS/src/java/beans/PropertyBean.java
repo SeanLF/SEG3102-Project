@@ -59,6 +59,17 @@ public class PropertyBean {
             throw new RuntimeException(e);
         }
     }
+    
+    public void update(Object object){
+        try{
+            utx.begin();
+            em.merge(object);
+            utx.commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+            throw new RuntimeException(e);
+        }
+    }
 
     public String addProperty() {
         try {
@@ -79,7 +90,7 @@ public class PropertyBean {
             // make the client an owner
             UserAccount acc = em.find(UserAccount.class, useraccount.getUserId());
             acc.setHasProperties(true);
-            persist(acc);
+            update(acc);
             session.setAttribute("Owner", true);
             return "viewOwnerProperties";
         } catch (Exception ex) {
