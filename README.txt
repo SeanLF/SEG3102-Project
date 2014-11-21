@@ -7,14 +7,14 @@ Work done so far:
 - created all database tables
 - created some beans for the user to create new rows in the database: user account, credit card, property
 - template is somewhat presentable
+- create "Facelets Template Client"s to search properties, owner view properties and view account
 
 Work to be done:
-- create "Facelets Template Client"s to search properties
-- do the same for owner properties
 - fix the redirection when logging in, registering
 - add links to delete and edit a property
-- add links to add to visiting list, remove from visiting list
-- 
+- add links to add to visiting list
+- create working links to add property to visiting list, update and delete property
+- create "Facelets Template Client"s to view visiting list
 
 ••••
 if you understand how the faces-config.xml works, please let me know
