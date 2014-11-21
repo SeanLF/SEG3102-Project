@@ -12,9 +12,10 @@
 
             <ui:define name="content">
                 <h1><i class="fa fa-search">&nbsp;</i>Browse Catalog</h1>
+                <br/>
                 <f:view>
                     <h:form prependId="false">
-                        
+
                         <h:panelGroup id="results">
                             <h:dataTable   border="2" bgcolor="yellow" id="resultTable" value="#{propertyBean.browseCatalogP}" var="p">
                                 <h:column>
@@ -33,22 +34,13 @@
                                     <f:facet name="header">Rent</f:facet>
                                     $&nbsp;#{p.rent}
                                 </h:column>
-                                <c:if test="#{sessionScope.User.userId != null}">
-                                        <c:if test="#{sessionScope.Owner == true}">
-                                            <h:column>
-                                                <f:facet name="header">Add To Visiting List</f:facet>
-                                                <a href=""><i class="fa fa-plus"></i></a>
-                                            </h:column>
-                                        </c:if>
-                                        <c:if test="#{sessionScope.Owner != true}">
-                                            <h:column>
-                                                <f:facet name="header">Remove From Visiting List</f:facet>
-                                                <a href="" style="text-align:center"><i class="fa fa-minus"></i></a>
-                                            </h:column>
-                                        </c:if>
-                                    </c:if>
+                                <h:column>
+                                    <f:facet name="header">Visiting List</f:facet>
+                                    <h:commandLink rendered="#{not sessionScope.Owner}"><i class="fa fa-plus"></i></h:commandLink>
+                                    <h:commandLink rendered="#{sessionScope.Owner}"><i class="fa fa-minus"></i></h:commandLink>
+                                </h:column>
                             </h:dataTable>
-                            
+
                         </h:panelGroup>
                     </h:form>
                 </f:view>

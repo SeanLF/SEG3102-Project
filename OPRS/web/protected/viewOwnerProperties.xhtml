@@ -11,6 +11,7 @@
 
             <ui:define name="content">
                 <h1><i class="fa fa-home">&nbsp;</i>My Properties!</h1>
+                <br/>
                 <f:view>
                     <h:form >
                         <h:panelGroup id="results">
@@ -51,7 +52,8 @@
                             </h:dataTable>
                             
                         </h:panelGroup>
-                        <h:commandButton value="Save Changes" action="#{propertyBean.saveAction()}"/>
+                        <br/>
+                        <h:commandButton value="Save Changes" action="#{propertyBean.save}" type="command"></h:commandButton>
                     </h:form>
                 </f:view>
             </ui:define>

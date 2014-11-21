@@ -347,21 +347,25 @@ public class PropertyBean {
     public void setEditable(boolean editable) {
         this.editable = editable;
     }
+    
+    public void save(){
+        this.saveAction();
+    }
 
-    public String saveAction() {
+    public void saveAction() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         UserAccount useraccount = (UserAccount)session.getAttribute("User");
-        useraccount = em.find(UserAccount.class, useraccount);
-        for (Property p : searchResults) {
+        useraccount = em.find(UserAccount.class, useraccount.getUserId());
+        for (Property p : viewOwnerP) {
+            p.setEditable(false);
             update(p);
         }
-        searchResults = findPropertiesForUser(em, useraccount.getUserId());
-        return null;
+        viewOwnerP = findPropertiesForUser(em, useraccount.getUserId());
     }
     
-    public String editAction(Property p){
+    public void editAction(Property p){
          p.setEditable(true);
-         return null;
+         update(p);
     }
     
     public String deleteAction(Property p){
