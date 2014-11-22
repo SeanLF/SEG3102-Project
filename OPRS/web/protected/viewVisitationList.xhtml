@@ -3,44 +3,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
-        <ui:composition template="./WEB-INF/template.xhtml">
+        <ui:composition template="./../WEB-INF/template.xhtml">
 
             <ui:define name="content">
-                <h1><i class="fa fa-search">&nbsp;</i>Browse Catalog</h1>
+                <h1>My Visitation List</h1>
                 <br/>
                 <f:view>
-                    <h:form prependId="false">
-
+                    <h:form >
                         <h:panelGroup id="results">
-                            <h:dataTable   border="2" bgcolor="yellow" id="resultTable" value="#{propertyBean.browseCatalogP}" var="pwv">
+                            <h:dataTable   border="2" bgcolor="yellow" id="resultTable" value="#{visitationBean.searchResults}" var="pwv">
                                 <h:column>
                                     <f:facet name="header">Property Name</f:facet>
-                                        #{pwv.property.title}
+                                    <h:outputText value ="#{pwv.property.title}" />
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Description</f:facet>
-                                        #{pwv.property.description}
+                                    <h:outputText value ="#{pwv.property.description}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Address</f:facet>
-                                        #{pwv.property.address}
+                                    <h:outputText value ="#{pwv.property.address}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Rent</f:facet>
-                                    $&nbsp;#{pwv.property.rent}
+                                    <h:outputText value ="$&nbsp;#{pwv.property.rent}"/>
                                 </h:column>
-                                <c:if test="${sessionScope.User!=null}">
                                 <h:column>
-                                    <f:facet name="header">Visiting List</f:facet>
-                                    <h:commandLink rendered="#{pwv.visitation == null}" action="#{visitationBean.addToVisitingList(pwv)}" value="Add"/>
-                                    <h:commandLink rendered="#{pwv.visitation != null }" action="#{visitationBean.removeFromVisitingList(pwv)}" value="Remove"/>
+                                    <f:facet name="header">Action</f:facet>
+                                    <h:commandLink action="#{visitationBean.removeFromVisitingList(pwv)}" value="Remove"/>
                                 </h:column>
-                                </c:if>
+
                             </h:dataTable>
 
                         </h:panelGroup>

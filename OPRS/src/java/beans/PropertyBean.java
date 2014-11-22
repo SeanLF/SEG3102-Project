@@ -24,6 +24,8 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import persistence.Property;
 import persistence.UserAccount;
+import ViewModels.PropertyWithVisitation;
+import java.util.Iterator;
 
 /**
  * This is our property
@@ -44,8 +46,8 @@ public class PropertyBean {
     private boolean archived;
     private boolean editable;
     private List<Property> viewOwnerP;
-    private List<Property> searchResults;
-    private List<Property> browseCatalogP;
+    private List<PropertyWithVisitation> searchResults;
+    private List<PropertyWithVisitation> browseCatalogP;
     @PersistenceContext(unitName = "OPRS")
     private EntityManager em;
     @Resource
@@ -143,9 +145,11 @@ public class PropertyBean {
         searchResults = new ArrayList<>();
         if (rent >= 0.0 & maxRent >= rent) {
             // lookup by name
-            searchResults = findPropertiesByRent(em, rent, maxRent);
+            List<Object[]> obj = findPropertiesByRent(em, rent, maxRent);
+            searchResults = PropertyWithVisitation.mapFromModelToViewModel(obj);
         } else if (rent >= maxRent && maxRent >= 0) {
-            searchResults = findPropertiesByRent(em, maxRent, rent);
+            List<Object[]> obj = findPropertiesByRent(em, maxRent, rent);
+            searchResults = PropertyWithVisitation.mapFromModelToViewModel(obj);
         }
     }
 
@@ -156,7 +160,7 @@ public class PropertyBean {
     }
 
     public void browseCatalog() {
-        browseCatalogP = findAllProperties(em);
+        browseCatalogP = PropertyWithVisitation.mapFromModelToViewModel(findAllProperties(em));
     }
 
     // show searchResults if any
@@ -279,19 +283,20 @@ public class PropertyBean {
         if (resultList.isEmpty()) {
             return null;
         }
-        ArrayList<Property> results = new ArrayList<>();
+        ArrayList<Object[]> results;
+        results = new ArrayList<>();
         results.addAll(resultList);
         return results;
     }
 
-    public static List<Property> findAllProperties(EntityManager em) {
-        Query query = em.createQuery(
-                "SELECT p  FROM Property p where p.archived=false");
+    private static List findAllProperties(EntityManager em) {
+        String queryString = "SELECT p , v FROM Property p left join Visitation v on p.propertyid = v.propertyid where  p.archived=false";
+        Query query = em.createQuery(queryString);
 
         return performQuery(query);
     }
 
-    public static List<Property> findPropertiesForUser(EntityManager em, String userid) {
+    private static List<Property> findPropertiesForUser(EntityManager em, String userid) {
         Query query = em.createQuery(
                 "SELECT p  FROM Property p where p.useraccountid = :userid order by p.title");
         query.setParameter("userid", userid);
@@ -299,9 +304,9 @@ public class PropertyBean {
         return performQuery(query);
     }
 
-    public List<Property> findPropertiesByRent(EntityManager em, double rent, double maxRent) {
-        Query query = em.createQuery(
-                "SELECT p  FROM Property p where :minRent <= p.rent and p.rent <= :maxRent and p.archived=false order by p.rent")
+    private List findPropertiesByRent(EntityManager em, double rent, double maxRent) {
+        String queryString = "SELECT p, v FROM Property p left join Visitation v on p.propertyid = v.propertyid where :minRent <= p.rent and p.rent <= :maxRent and p.archived=false order by p.rent";
+        Query query = em.createQuery(queryString)
                 .setParameter("minRent", rent)
                 .setParameter("maxRent", maxRent);
 
@@ -311,14 +316,14 @@ public class PropertyBean {
     /**
      * @return the searchResults
      */
-    public List<Property> getSearchResults() {
+    public List<PropertyWithVisitation> getSearchResults() {
         return searchResults;
     }
 
     /**
      * @param searchResults the searchResults to set
      */
-    public void setSearchResults(List<Property> searchResults) {
+    public void setSearchResults(List<PropertyWithVisitation> searchResults) {
         this.searchResults = searchResults;
     }
 
@@ -393,7 +398,7 @@ public class PropertyBean {
     /**
      * @return the browseCatalogP
      */
-    public List<Property> getBrowseCatalogP() {
+    public List<PropertyWithVisitation> getBrowseCatalogP() {
         browseCatalog();
         return browseCatalogP;
     }
@@ -401,7 +406,7 @@ public class PropertyBean {
     /**
      * @param browseCatalogP the browseCatalogP to set
      */
-    public void setBrowseCatalogP(List<Property> browseCatalogP) {
+    public void setBrowseCatalogP(List<PropertyWithVisitation> browseCatalogP) {
         this.browseCatalogP = browseCatalogP;
     }
 }

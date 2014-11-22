@@ -5,7 +5,10 @@
  */
 package beans;
 
+import ViewModels.PropertyWithVisitation;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -14,6 +17,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -22,6 +26,7 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import persistence.Property;
 import persistence.UserAccount;
+import persistence.Visitation;
 
 /**
  *
@@ -32,27 +37,20 @@ import persistence.UserAccount;
 public class VisitationBean {
 
     private String visitationid;
-    private Date startdate;
-    private String starttime;
-    private Date enddate;
-    private String endtime;
     private String propertyid;
-    private String categoryid;
-    private String searchResults;
+    private List<PropertyWithVisitation> searchResults;
     @PersistenceContext(unitName = "OPRS")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
 
-    private String status;
-    
     /**
      * Creates a new instance of VisitationBean
      */
     public VisitationBean() {
     }
-    
-    public void persist(Object object) {
+
+    private void persist(Object object) {
         try {
             utx.begin();
             em.persist(object);
@@ -63,43 +61,85 @@ public class VisitationBean {
         }
     }
 
-    public void update(Object object) {
+    private void destroyVisitation(Visitation visitation) {
         try {
             utx.begin();
-            em.merge(object);
+            visitation = em.find(Visitation.class, visitation.getVisitationid());
+            em.remove(visitation);
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
             throw new RuntimeException(e);
         }
     }
-    
-    public void addToVisitationList(){
+
+    public void addToVisitingList(PropertyWithVisitation pwv) {
         try {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             UserAccount useraccount = (UserAccount) session.getAttribute("User");
             useraccount = em.find(UserAccount.class, useraccount.getUserId());
-            
-            
-            status = "Successfuly added to visitation list";
+            Visitation v = new Visitation();
+            String _propertyid = pwv.getProperty().getPropertyid();
+            v.setPropertyid(_propertyid);
+            v.setVisitationid(useraccount.getUserId() + "_" + _propertyid);
+            v.setUserid(useraccount.getUserId());
+            persist(v);
         } catch (Exception ex) {
-            Logger.getLogger(PropertyBean.class.getName()).log(Level.SEVERE, null, ex);
-            status = "Error While Creating New Property";
+            Logger.getLogger(VisitationBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+    }
+
+    public void removeFromVisitingList(PropertyWithVisitation pwv) {
+        try {
+            destroyVisitation(pwv.getVisitation());
+        } catch (Exception ex) {
+            Logger.getLogger(VisitationBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void viewVisitationList() {
+        try {
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            UserAccount useraccount = (UserAccount) session.getAttribute("User");
+            useraccount = em.find(UserAccount.class, useraccount.getUserId());
+            List<Object[]> obj = findVisitationListForUser(em, useraccount.getUserId());
+            searchResults = (PropertyWithVisitation.mapFromModelToViewModel(obj));
+        } catch (Exception ex) {
+            Logger.getLogger(VisitationBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private List findVisitationListForUser(EntityManager em, String user) {
+        String queryString = "SELECT p , v FROM Property as p left join Visitation as v on p.propertyid = v.propertyid where  p.archived=false and :userid = v.userid order by p.title";
+        Query query = em.createQuery(queryString)
+                .setParameter("userid", user);
+
+        return performQuery(query);
+    }
+
+    private static List performQuery(final Query query) {
+        List resultList = query.getResultList();
+        if (resultList.isEmpty()) {
+            return null;
+        }
+        ArrayList<Object> results;
+        results = new ArrayList<>();
+        results.addAll(resultList);
+        return results;
     }
 
     /**
      * @return the searchResults
      */
-    public String getSearchResults() {
+    public List<PropertyWithVisitation> getSearchResults() {
+        viewVisitationList();
         return searchResults;
     }
 
     /**
      * @param searchResults the searchResults to set
      */
-    public void setSearchResults(String searchResults) {
+    public void setSearchResults(List<PropertyWithVisitation> searchResults) {
         this.searchResults = searchResults;
     }
 
@@ -118,62 +158,6 @@ public class VisitationBean {
     }
 
     /**
-     * @return the startdate
-     */
-    public Date getStartdate() {
-        return startdate;
-    }
-
-    /**
-     * @param startdate the startdate to set
-     */
-    public void setStartdate(Date startdate) {
-        this.startdate = startdate;
-    }
-
-    /**
-     * @return the starttime
-     */
-    public String getStarttime() {
-        return starttime;
-    }
-
-    /**
-     * @param starttime the starttime to set
-     */
-    public void setStarttime(String starttime) {
-        this.starttime = starttime;
-    }
-
-    /**
-     * @return the enddate
-     */
-    public Date getEnddate() {
-        return enddate;
-    }
-
-    /**
-     * @param enddate the enddate to set
-     */
-    public void setEnddate(Date enddate) {
-        this.enddate = enddate;
-    }
-
-    /**
-     * @return the endtime
-     */
-    public String getEndtime() {
-        return endtime;
-    }
-
-    /**
-     * @param endtime the endtime to set
-     */
-    public void setEndtime(String endtime) {
-        this.endtime = endtime;
-    }
-
-    /**
      * @return the propertyid
      */
     public String getPropertyid() {
@@ -186,32 +170,4 @@ public class VisitationBean {
     public void setPropertyid(String propertyid) {
         this.propertyid = propertyid;
     }
-
-    /**
-     * @return the categoryid
-     */
-    public String getCategoryid() {
-        return categoryid;
-    }
-
-    /**
-     * @param categoryid the categoryid to set
-     */
-    public void setCategoryid(String categoryid) {
-        this.categoryid = categoryid;
-    }
-    /**
-     * @return the status
-     */
-    public String getStatus() {
-        return status;
-    }
-
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    
 }

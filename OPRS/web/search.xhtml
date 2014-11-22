@@ -30,37 +30,30 @@
                             <hr/>
 
                             <h:panelGroup id="results">
-                                <h:dataTable  rendered="#{propertyBean.showResults}" border="2" bgcolor="yellow" id="resultTable" value="#{propertyBean.searchResults}" var="p">
+                                <h:dataTable  rendered="#{propertyBean.showResults}" border="2" bgcolor="yellow" id="resultTable" value="#{propertyBean.searchResults}" var="pwv">
                                     <h:column>
                                         <f:facet name="header">Property Name</f:facet>
-                                            #{p.title}
+                                            #{pwv.property.title}
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">Description</f:facet>
-                                            #{p.description}
+                                            #{pwv.property.description}
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">Address</f:facet>
-                                            #{p.address}
+                                            #{pwv.property.address}
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">Rent</f:facet>
-                                            $&nbsp;#{p.rent}
+                                            $&nbsp;#{pwv.property.rent}
                                     </h:column>
-                                    <c:if test="#{sessionScope.User.userId != null}">
-                                        <c:if test="#{sessionScope.Owner == true}">
-                                            <h:column>
-                                                <f:facet name="header">Add To Visiting List</f:facet>
-                                                <a href=""><i class="fa fa-plus"></i></a>
-                                            </h:column>
-                                        </c:if>
-                                        <c:if test="#{sessionScope.Owner != true}">
-                                            <h:column>
-                                                <f:facet name="header">Remove From Visiting List</f:facet>
-                                                <a href="" style="text-align:center"><i class="fa fa-minus"></i></a>
-                                            </h:column>
-                                        </c:if>
-                                    </c:if>
+                                    <c:if test="${sessionScope.User!=null}">
+                                <h:column>
+                                    <f:facet name="header">Visiting List</f:facet>
+                                    <h:commandLink rendered="#{pwv.visitation == null}" action="#{visitationBean.addToVisitingList(pwv)}" value="Add"/>
+                                    <h:commandLink rendered="#{pwv.visitation != null}" action="#{visitationBean.removeFromVisitingList(pwv.visitation)}" value="Remove"/>
+                                </h:column>
+                                </c:if>
                                 </h:dataTable>
                                 <h:outputText rendered="#{propertyBean.showMessage}" style="color:red" id="resultMessage" value="No Property Found"/>
                             </h:panelGroup>
