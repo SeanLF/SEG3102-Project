@@ -51,7 +51,7 @@
                                 <h:column>
                                     <f:facet name="header">Visiting List</f:facet>
                                     <h:commandLink rendered="#{pwv.visitation == null}" action="#{visitationBean.addToVisitingList(pwv)}" value="Add"/>
-                                    <h:commandLink rendered="#{pwv.visitation != null}" action="#{visitationBean.removeFromVisitingList(pwv.visitation)}" value="Remove"/>
+                                    <h:commandLink rendered="#{pwv.visitation != null }" action="#{visitationBean.removeFromVisitingList(pwv)}" value="Remove"/>
                                 </h:column>
                                 </c:if>
                                 </h:dataTable>
