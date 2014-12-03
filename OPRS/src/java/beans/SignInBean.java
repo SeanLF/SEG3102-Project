@@ -175,7 +175,7 @@ public class SignInBean {
             status = "New Account Created Fine";
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             session.setAttribute("User", acc);
-            return "welcome";
+            return "welcomeProtected";
         } catch (Exception ex) {
             Logger.getLogger(SignInBean.class.getName()).log(Level.SEVERE, null, ex);
             status = "Error While Creating New Account";

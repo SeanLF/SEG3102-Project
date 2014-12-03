@@ -91,7 +91,7 @@ public class LoginBean {
                      //login ok - set user in session context
                      HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                      session.setAttribute("User", acc);
-                     return "welcome";
+                     return "welcomeProtected";
                  } else {
                     status="Invalid Login, Please Try again"; 
                  }
